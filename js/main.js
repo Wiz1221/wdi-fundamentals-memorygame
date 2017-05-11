@@ -24,20 +24,34 @@ var cards = [
 
 var cardsInPlay = [];
 
-var flipCard = function(cardId){
-	console.log("User flipped " + cards[cardId].rank);
-	console.log("User flipped " + cards[cardId].cardImage);
-	console.log("User flipped " + cards[cardId].suit);
-	cardsInPlay.push(cards[cardId]);
-}
-
 var checkForMatch = function(){
 	if (cardsInPlay[1]===cardsInPlay[0]) {
 		alert("You found a match!");
 	}else{
-		alert("try again");
+		alert("Sorry, try again");
 	}
 }
-flipCard(0);
-flipCard(2);
-checkForMatch();
+
+var flipCard = function(){
+		var track = document.querySelectorAll('img');
+		var cardId = this.getAttribute('data-id');
+		cardsInPlay.push(cards[cardId].rank);
+		track[cardId].setAttribute('src',cards[cardId].cardImage);
+		if(cardsInPlay[1]!= null){
+			checkForMatch();
+		}
+}
+
+var createBoard = function(){
+
+	for (var i = 0; i <cards.length; i++) {
+		var cardElement = document.createElement('img');
+		cardElement.setAttribute('src', 'images/back.png');
+		cardElement.setAttribute('data-id', i);
+		cardElement.addEventListener('click',flipCard);
+		document.getElementById('game-board').appendChild(cardElement);
+		
+	}
+}
+
+createBoard();
